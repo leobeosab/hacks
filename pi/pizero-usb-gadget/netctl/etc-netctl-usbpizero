@@ -1,0 +1,11 @@
+# /etc/netctl/usbpizero
+Description='gobox'
+Interface=usb0
+Connection=ethernet
+IP=static
+Address=('192.168.7.3/24')
+## Gateway address is the one we'll specify later
+## in dhcpd.conf of the computer on the other end
+## of the USB cable
+Gateway='192.168.7.150'
+DNS=('8.8.8.8')
