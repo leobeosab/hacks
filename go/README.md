@@ -9,3 +9,10 @@ numgen start end increment (optional) precision
 Ex: numgen 0 10 .01
 Default precision is 0 ie no decimals
 ```
+
+## substowords.go
+Generates words from a large list of subdomains (using for s3 bucket bashing)
+
+```
+cat testfiles/substowords.test | go run substowords.go
+```
