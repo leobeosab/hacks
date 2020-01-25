@@ -16,3 +16,10 @@ Generates words from a large list of subdomains (using for s3 bucket bashing)
 ```
 cat testfiles/substowords.test | go run substowords.go
 ```
+
+## Discord message
+Sends messages to a webhook defined as D_NOTIFICATION_WH env var
+```
+export D_NOTIFICATION_WH=[your webhook url]
+discordmessage "hello world" "test" "etc"
+```
