@@ -1,13 +1,39 @@
 package main
 
+/* NOTICE:
+ * For the love of all that is good
+ * Do not use this as an example for how things should be done
+ * -----------------------------------------
+ * This is a hack to serve as a replacement for github.com/leobeosab/sharingan until
+ * I have all the features I want for passive scanning done and stable
+ */
+
 import (
 	"fmt"
+	"log"
+	"os/exec"
 	"strings"
 )
 
 func main() {
-	cs := FormatCommandString("some test \"with quoted params\"")
-	fmt.Printf("length: %d, string: %s", len(cs), cs)
+	out, err := RunCommand("amass enum -d yahoo.com")
+	if err != nil {
+		log.Printf("%v", err)
+	}
+
+	fmt.Println(out)
+}
+
+func RunCommand(c string) (string, error) {
+	ca := FormatCommandString(c)
+	out, err := exec.Command(ca[0], ca[1:]...).Output()
+	if err != nil {
+		return "", err
+	}
+
+	log.Printf("Executing %s", c)
+	output := string(out[:])
+	return output, nil
 }
 
 func FormatCommandString(c string) []string {
