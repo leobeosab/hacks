@@ -6,7 +6,8 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	models "passiverecon/types"
+	"passiverecon/models"
+	"passiverecon/scantools"
 )
 
 /* NOTICE:
@@ -21,11 +22,19 @@ func main() {
 	input := flag.String("scanjson", "", "JSON file input")
 	flag.Parse()
 
-	r := ReadScanFile(*input)
-	fmt.Printf("%v\n", r)
+	s := ReadScanFile(*input)
+	for i, d := range s.Subdomains {
+		domains := make([]models.Domain, 0)
+		domains = append(domains, scantools.AmassDNSEnumeration(d.Root)...)
+
+		// TODO: move domains / subdomains into a map for checking if unique
+		s.Subdomains[i].Domains = domains
+	}
+
+	fmt.Printf("%v\n", s)
 }
 
-func ReadScanFile(path string) []string {
+func ReadScanFile(path string) models.Scan {
 	jf, err := os.Open(path)
 	if err != nil {
 		fmt.Println(err)
@@ -43,7 +52,5 @@ func ReadScanFile(path string) []string {
 		fmt.Println(err)
 	}
 
-	fmt.Printf("%v", s)
-
-	return []string{}
+	return s
 }
