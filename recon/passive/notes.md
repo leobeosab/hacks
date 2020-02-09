@@ -1,3 +1,9 @@
+## TODO
+Read in json file
+dns scan wild cards
+save
+get differences
+
 ## The Steps
 1.  Read targets
     *   If target has * that means dns bust

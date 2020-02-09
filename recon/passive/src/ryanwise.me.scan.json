@@ -1,0 +1,13 @@
+{
+    "name": "Ryan Wise's H1",
+    "subdomains": [
+        {
+            "root": "ryanwise.me",
+            "wildcard": true,
+            "domains": [
+                { "name": "ryanwise.me" },
+                { "name": "home.ryanwise.me" }
+            ]
+        }
+    ]
+}
