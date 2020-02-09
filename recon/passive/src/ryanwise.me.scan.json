@@ -3,11 +3,7 @@
     "subdomains": [
         {
             "root": "ryanwise.me",
-            "wildcard": true,
-            "domains": [
-                { "name": "ryanwise.me" },
-                { "name": "home.ryanwise.me" }
-            ]
+            "wildcard": true
         }
     ]
 }

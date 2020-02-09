@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -17,14 +18,15 @@ import (
  */
 
 func main() {
-	r := ReadScanFile()
+	input := flag.String("scanjson", "", "JSON file input")
+	flag.Parse()
+
+	r := ReadScanFile(*input)
 	fmt.Printf("%v\n", r)
 }
 
-func ReadScanFile() []string {
-	tmpLocation := "ryanwise.me.scan.json"
-
-	jf, err := os.Open(tmpLocation)
+func ReadScanFile(path string) []string {
+	jf, err := os.Open(path)
 	if err != nil {
 		fmt.Println(err)
 	}
