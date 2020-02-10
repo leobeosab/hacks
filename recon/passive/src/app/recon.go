@@ -25,8 +25,8 @@ func main() {
 	s := ReadScanFile(*input)
 	for i, d := range s.Subdomains {
 		domains := make([]models.Domain, 0)
-		domains = append(domains, scantools.AmassDNSEnumeration(d.Root)...)
-
+		//domains = append(domains, scantools.AmassDNSEnumeration(d.Root)...)
+		domains = append(domains, scantools.GOBustDNSBusting(d.Root, s.DNSWordlistPath)...)
 		// TODO: move domains / subdomains into a map for checking if unique
 		s.Subdomains[i].Domains = domains
 	}

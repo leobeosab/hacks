@@ -1,8 +1,9 @@
 package models
 
 type Scan struct {
-	Name       string   `json:"name"`
-	Subdomains []Target `json:"subdomains"`
+	Name            string   `json:"name"`
+	Subdomains      []Target `json:"subdomains"`
+	DNSWordlistPath string   `json:"dnsWordlistPath"`
 }
 
 type Target struct {
