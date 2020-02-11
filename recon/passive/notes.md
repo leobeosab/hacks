@@ -1,8 +1,13 @@
 ## TODO
-Read in json file
-dns scan wild cards
-save
-get differences
+* dns scan wild cards
+* save
+* get differences
+* nmap scan
+* dirbust
+* aquatone
+* discord messages
+* what web
+
 
 ## The Steps
 1.  Read targets

@@ -1,15 +1,15 @@
 package models
 
 type Scan struct {
-	Name            string   `json:"name"`
-	Subdomains      []Target `json:"subdomains"`
-	DNSWordlistPath string   `json:"dnsWordlistPath"`
+	Name            string            `json:"name"`
+	Subdomains      map[string]Target `json:"subdomains"`
+	DNSWordlistPath string            `json:"dnsWordlistPath"`
 }
 
 type Target struct {
-	Root     string   `json:"root"`
-	Wildcard bool     `json:"wildcard"`
-	Domains  []Domain `json:"domains"`
+	Root     string            `json:"root"`
+	Wildcard bool              `json:"wildcard"`
+	Domains  map[string]Domain `json:"domains"`
 }
 
 type Domain struct {

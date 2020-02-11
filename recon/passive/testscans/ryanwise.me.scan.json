@@ -1,10 +1,11 @@
 {
     "name": "Ryan Wise's H1",
     "dnsWordlistPath": "wl",
-    "subdomains": [
+    "subdomains": {
+        "ryanwise.me":
         {
             "root": "ryanwise.me",
             "wildcard": true
         }
-    ]
+    }
 }

@@ -23,15 +23,41 @@ func main() {
 	flag.Parse()
 
 	s := ReadScanFile(*input)
-	for i, d := range s.Subdomains {
-		domains := make([]models.Domain, 0)
-		//domains = append(domains, scantools.AmassDNSEnumeration(d.Root)...)
-		domains = append(domains, scantools.GOBustDNSBusting(d.Root, s.DNSWordlistPath)...)
-		// TODO: move domains / subdomains into a map for checking if unique
-		s.Subdomains[i].Domains = domains
-	}
+
+	DNSScanning(&s)
 
 	fmt.Printf("%v\n", s)
+}
+
+func DNSScanning(s *models.Scan) map[string][]models.Domain {
+	unique := make(map[string][]models.Domain)
+
+	for i, t := range s.Subdomains {
+		if !t.Wildcard {
+			continue
+		}
+		if t.Domains == nil {
+			t.Domains = make(map[string]models.Domain)
+		}
+
+		domains := make([]models.Domain, 0)
+		//domains = append(domains, scantools.AmassDNSEnumeration(t.Root)...)
+		domains = append(domains, scantools.GOBustDNSBusting(t.Root, s.DNSWordlistPath)...)
+
+		fmt.Printf("%v\n", t)
+		for _, d := range domains {
+			if _, ok := t.Domains[d.Name]; ok {
+				continue
+			}
+
+			t.Domains[d.Name] = d
+			unique[t.Root] = append(unique[t.Root], d)
+		}
+
+		s.Subdomains[i] = t
+	}
+
+	return unique
 }
 
 func ReadScanFile(path string) models.Scan {
