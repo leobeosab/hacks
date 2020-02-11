@@ -41,7 +41,7 @@ func DNSScanning(s *models.Scan) map[string][]models.Domain {
 		}
 
 		domains := make([]models.Domain, 0)
-		//domains = append(domains, scantools.AmassDNSEnumeration(t.Root)...)
+		domains = append(domains, scantools.AmassDNSEnumeration(t.Root)...)
 		domains = append(domains, scantools.GOBustDNSBusting(t.Root, s.DNSWordlistPath)...)
 
 		fmt.Printf("%v\n", t)
