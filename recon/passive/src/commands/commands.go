@@ -8,7 +8,7 @@ import (
 
 func RunCommand(c string) (string, error) {
 	ca := FormatCommandString(c)
-	out, err := exec.Command(ca[0], ca[1:]...).CombinedOutput()
+	out, err := exec.Command(ca[0], ca[1:]...).Output()
 	if err != nil {
 		return "", err
 	}

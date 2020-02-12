@@ -1,7 +1,5 @@
 ## TODO
-* dns scan wild cards
 * save
-* get differences
 * nmap scan
 * dirbust
 * aquatone

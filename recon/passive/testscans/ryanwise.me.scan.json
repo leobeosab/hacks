@@ -1,6 +1,7 @@
 {
     "name": "Ryan Wise's H1",
     "dnsWordlistPath": "wl",
+    "dirbustWordlistPath": "/home/ryan/ostools/SecLists/Discovery/Web-Content/big.txt",
     "subdomains": {
         "ryanwise.me":
         {

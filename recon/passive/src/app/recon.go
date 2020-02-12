@@ -24,7 +24,8 @@ func main() {
 
 	s := ReadScanFile(*input)
 
-	DNSScanning(&s)
+	scantools.DirBust("https://ryanwise.me", s.DirbustWordlistPath) // maybe use something else?
+	//DNSScanning(&s)
 
 	fmt.Printf("%v\n", s)
 }
