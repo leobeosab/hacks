@@ -6,6 +6,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"passiverecon/models"
 )
 
 type DiscordMessage struct {
@@ -41,4 +43,32 @@ func SendDiscordMessage(message *DiscordMessage) {
 		return
 	}
 	defer resp.Body.Close()
+}
+
+func NotifyDirBustResults(domain string, results *[]models.DirBustResult) {
+	content := "Dirbust Results: \n"
+	for _, r := range *results {
+		content += r.Path + "\n"
+	}
+
+	msg := &DiscordMessage{
+		Username: domain,
+		Content:  content,
+	}
+
+	SendDiscordMessage(msg)
+}
+
+func NotifyUniqueDomains(target string, domains *[]models.Domain) {
+	content := "Unique Domains Found: \n"
+	for _, d := range *domains {
+		content += d.Name + "\n"
+	}
+
+	msg := &DiscordMessage{
+		Username: target,
+		Content:  content,
+	}
+
+	SendDiscordMessage(msg)
 }

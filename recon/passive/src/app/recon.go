@@ -8,6 +8,7 @@ import (
 	"os"
 	"passiverecon/helpers"
 	"passiverecon/models"
+	"passiverecon/notify"
 	"passiverecon/scantools"
 )
 
@@ -25,14 +26,20 @@ func main() {
 
 	s := ReadScanFile(*scanfile)
 
-	DNSScanning(&s)
-	DirBusting(&s)
+	dnsRes := DNSScanning(&s)
+	for t, a := range dnsRes {
+		notify.NotifyUniqueDomains(t, &a)
+	}
+	dirb := DirBusting(&s)
+	for t, a := range dirb {
+		notify.NotifyDirBustResults(t, &a)
+	}
 
 	fmt.Printf("%v\n", s)
 }
 
-func DirBusting(s *models.Scan) []models.DirBustResult {
-	results := make([]models.DirBustResult, 0)
+func DirBusting(s *models.Scan) map[string][]models.DirBustResult {
+	results := make(map[string][]models.DirBustResult, 0)
 	for tk, tv := range s.Subdomains {
 		for dk, dv := range tv.Domains {
 			// JESUS CHRIST I HATE THIS
@@ -46,7 +53,7 @@ func DirBusting(s *models.Scan) []models.DirBustResult {
 
 			dv.DirbResults = dirb
 			s.Subdomains[tk].Domains[dk] = dv
-			results = append(results, dirb...)
+			results[dv.Name] = dirb
 		}
 	}
 
