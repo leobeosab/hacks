@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"passiverecon/helpers"
 	"passiverecon/models"
 	"passiverecon/scantools"
 )
@@ -24,10 +25,32 @@ func main() {
 
 	s := ReadScanFile(*input)
 
-	scantools.DirBust("https://ryanwise.me", s.DirbustWordlistPath) // maybe use something else?
-	//DNSScanning(&s)
+	DNSScanning(&s)
+	DirBusting(&s)
 
 	fmt.Printf("%v\n", s)
+}
+
+func DirBusting(s *models.Scan) []models.DirBustResult {
+	results := make([]models.DirBustResult, 0)
+	for tk, tv := range s.Subdomains {
+		for dk, dv := range tv.Domains {
+			// JESUS CHRIST I HATE THIS
+			// YET HERE I AM WRITING IT
+			// What am I doing with my life
+			dirb := make([]models.DirBustResult, 0)
+			for _, url := range helpers.ReturnActiveWebPortURLS(dv.Name) {
+				// Get dirbed urls, add to results for ez pz discord notification?
+				dirb = append(dirb, scantools.DirBust(url, s.DirbustWordlistPath)...)
+			}
+
+			dv.DirbResults = dirb
+			s.Subdomains[tk].Domains[dk] = dv
+			results = append(results, dirb...)
+		}
+	}
+
+	return results
 }
 
 func DNSScanning(s *models.Scan) map[string][]models.Domain {

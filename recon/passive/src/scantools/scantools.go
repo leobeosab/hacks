@@ -17,7 +17,7 @@ func DirBust(URL string, wordlistpath string) []models.DirBustResult {
 	rc := fmt.Sprintf("gobuster dir -e -z -t 25 -q --url %s --wordlist %s", URL, wordlistpath)
 	data, err := commands.RunCommand(rc)
 	if err != nil {
-		log.Println("Error encountered during dirb.... skipping")
+		log.Printf("Error encountered during gobuster dir.... skipping\n URL: %s", URL)
 		log.Println(err)
 		return results // return empty array
 	}

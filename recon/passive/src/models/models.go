@@ -14,7 +14,8 @@ type Target struct {
 }
 
 type Domain struct {
-	Name string `json:"name"`
+	Name        string          `json:"name"`
+	DirbResults []DirBustResult `json:"dirbResults"`
 }
 
 type DirBustResult struct {
