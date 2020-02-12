@@ -20,10 +20,10 @@ import (
  */
 
 func main() {
-	input := flag.String("scanjson", "", "JSON file input")
+	scanfile := flag.String("scanjson", "", "JSON file input")
 	flag.Parse()
 
-	s := ReadScanFile(*input)
+	s := ReadScanFile(*scanfile)
 
 	DNSScanning(&s)
 	DirBusting(&s)
