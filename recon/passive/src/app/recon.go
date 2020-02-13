@@ -56,7 +56,11 @@ func DirBusting(s *models.Scan) map[string][]models.DirBustResult {
 			dirb := make([]models.DirBustResult, 0)
 			for _, url := range helpers.ReturnActiveWebPortURLS(dv.Name) {
 				// Get dirbed urls, add to results for ez pz discord notification?
-				dirb = append(dirb, scantools.DirBust(url, s.DirbustWordlistPath)...)
+				urls, err := scantools.DirBust(url, s.DirbustWordlistPath)
+				if err != nil {
+					notify.SendError(dv.Name, "Error running dirbust", err)
+				}
+				dirb = append(dirb, urls...)
 			}
 
 			dv.DirbResults = dirb
@@ -80,8 +84,16 @@ func DNSScanning(s *models.Scan) map[string][]models.Domain {
 		}
 
 		domains := make([]models.Domain, 0)
-		domains = append(domains, scantools.AmassDNSEnumeration(t.Root)...)
-		domains = append(domains, scantools.GOBustDNSBusting(t.Root, s.DNSWordlistPath)...)
+		amassdomains, err := scantools.AmassDNSEnumeration(t.Root)
+		if err != nil {
+			notify.SendError(t.Root, "Error doing Amass DNS Enumeration", err)
+		}
+		domains = append(domains, amassdomains...)
+		gobustdomains, err := scantools.GOBustDNSBusting(t.Root, s.DNSWordlistPath)
+		if err != nil {
+			notify.SendError(t.Root, "Error doing dns buting", err)
+		}
+		domains = append(domains, gobustdomains...)
 
 		fmt.Printf("%v\n", t)
 		for _, d := range domains {

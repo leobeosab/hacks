@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func DirBust(URL string, wordlistpath string) []models.DirBustResult {
+func DirBust(URL string, wordlistpath string) ([]models.DirBustResult, error) {
 	results := make([]models.DirBustResult, 0)
 
 	// e: full url, q: quiet, z: no progress, t: threads
@@ -19,7 +19,7 @@ func DirBust(URL string, wordlistpath string) []models.DirBustResult {
 	if err != nil {
 		log.Printf("Error encountered during gobuster dir.... skipping\n URL: %s", URL)
 		log.Println(err)
-		return results // return empty array
+		return results, err // return empty array
 	}
 
 	reg := regexp.MustCompile(`(\d)*`) // match only digits for status
@@ -45,17 +45,17 @@ func DirBust(URL string, wordlistpath string) []models.DirBustResult {
 		results = append(results, r)
 	}
 
-	return results
+	return results, nil
 }
 
-func AmassDNSEnumeration(domain string) []models.Domain {
+func AmassDNSEnumeration(domain string) ([]models.Domain, error) {
 
 	rc := fmt.Sprintf("amass enum -d %s", domain)
 	data, err := commands.RunCommand(rc)
 	if err != nil {
 		log.Println("Error encountered during AmassEnumeration.... skipping")
 		log.Println(err)
-		return []models.Domain{}
+		return []models.Domain{}, err
 	}
 
 	subs := strings.Split(data, "\n")
@@ -73,16 +73,16 @@ func AmassDNSEnumeration(domain string) []models.Domain {
 		domains = append(domains, d)
 	}
 
-	return domains
+	return domains, nil
 }
 
-func GOBustDNSBusting(domain string, wordlistpath string) []models.Domain {
+func GOBustDNSBusting(domain string, wordlistpath string) ([]models.Domain, error) {
 	rc := fmt.Sprintf("gobuster -z -t 25 -q dns --domain %s --wordlist %s", domain, wordlistpath)
 	data, err := commands.RunCommand(rc)
 	if err != nil {
 		log.Println("Error encountered during Gobuster DNS Enumeration.... skipping")
 		log.Println(err)
-		return []models.Domain{}
+		return []models.Domain{}, err
 
 	}
 	reg := regexp.MustCompile(`[\S]*`)
@@ -102,5 +102,5 @@ func GOBustDNSBusting(domain string, wordlistpath string) []models.Domain {
 		domains = append(domains, d)
 	}
 
-	return domains
+	return domains, nil
 }
