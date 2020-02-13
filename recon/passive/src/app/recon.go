@@ -36,7 +36,14 @@ func main() {
 	}
 
 	fmt.Printf("%v\n", s)
-	SaveScanFile(s, *scanfile)
+	if !SaveScanFile(s, *scanfile) {
+		msg := &notify.DiscordMessage{
+			Username: "ERROR",
+			Content:  "Couldn't save scan file",
+		}
+
+		notify.SendDiscordMessage(msg)
+	}
 }
 
 func DirBusting(s *models.Scan) map[string][]models.DirBustResult {
