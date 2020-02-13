@@ -36,6 +36,7 @@ func main() {
 	}
 
 	fmt.Printf("%v\n", s)
+	SaveScanFile(s, *scanfile)
 }
 
 func DirBusting(s *models.Scan) map[string][]models.DirBustResult {
@@ -110,4 +111,16 @@ func ReadScanFile(path string) models.Scan {
 	}
 
 	return s
+}
+
+func SaveScanFile(scan models.Scan, scanfile string) bool {
+	data, err := json.MarshalIndent(scan, "", "\t")
+	if err != nil {
+		return false
+	}
+	err = ioutil.WriteFile(scanfile, data, 0644)
+	if err != nil {
+		return false
+	}
+	return true
 }

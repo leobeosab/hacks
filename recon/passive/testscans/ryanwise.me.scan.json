@@ -1,12 +1,12 @@
 {
-    "name": "Ryan Wise's H1",
-    "dnsWordlistPath": "wl",
-    "dirbustWordlistPath": "/home/ryan/ostools/SecLists/Discovery/Web-Content/big.txt",
-    "subdomains": {
-        "ryanwise.me":
-        {
-            "root": "ryanwise.me",
-            "wildcard": true
-        }
-    }
+	"name": "Ryan Wise's H1",
+	"subdomains": {
+		"ryanwise.me": {
+			"root": "ryanwise.me",
+			"wildcard": true,
+			"domains": null
+		}
+	},
+	"dnsWordlistPath": "wl",
+	"dirbustWordlistPath": "/home/ryan/ostools/SecLists/Discovery/Web-Content/big.txt"
 }
