@@ -4,9 +4,9 @@ import "fmt"
 
 func SendError(name string, errmsg string, err error) {
 	content := fmt.Sprintf("%s\n%s", errmsg, err)
-	msg := &DiscordMessage {
+	msg := &DiscordMessage{
 		Username: "ERROR: " + name,
-		Content: content,
+		Content:  content,
 	}
 
 	SendDiscordMessage(msg)

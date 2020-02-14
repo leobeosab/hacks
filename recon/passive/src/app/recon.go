@@ -37,12 +37,7 @@ func main() {
 
 	fmt.Printf("%v\n", s)
 	if !SaveScanFile(s, *scanfile) {
-		msg := &notify.DiscordMessage{
-			Username: "ERROR",
-			Content:  "Couldn't save scan file",
-		}
-
-		notify.SendDiscordMessage(msg)
+		notify.SendError("Generic", "Could not save JSON", nil)
 	}
 }
 
@@ -58,7 +53,7 @@ func DirBusting(s *models.Scan) map[string][]models.DirBustResult {
 				// Get dirbed urls, add to results for ez pz discord notification?
 				urls, err := scantools.DirBust(url, s.DirbustWordlistPath)
 				if err != nil {
-					notify.SendError(dv.Name, "Error running dirbust", err)
+					notify.SendError(dv.Name, "Dirbust", err)
 				}
 				dirb = append(dirb, urls...)
 			}
@@ -86,7 +81,7 @@ func DNSScanning(s *models.Scan) map[string][]models.Domain {
 		domains := make([]models.Domain, 0)
 		amassdomains, err := scantools.AmassDNSEnumeration(t.Root)
 		if err != nil {
-			notify.SendError(t.Root, "Error doing Amass DNS Enumeration", err)
+			notify.SendError(t.Root, "Amass DNS Enumeration", err)
 		}
 		domains = append(domains, amassdomains...)
 		gobustdomains, err := scantools.GOBustDNSBusting(t.Root, s.DNSWordlistPath)

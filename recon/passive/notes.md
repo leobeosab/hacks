@@ -1,4 +1,8 @@
 ## TODO
+1. Multiple Webhooks
+2. Context for commands
+3. Embeds for DiscordMessage (stop showing links)
+
 * nmap scan
 * waybackurls
 * aquatone

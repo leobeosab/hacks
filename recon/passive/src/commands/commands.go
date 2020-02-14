@@ -1,20 +1,51 @@
 package commands
 
 import (
+	"bufio"
+	"errors"
+	"fmt"
+	"io/ioutil"
 	"log"
 	"os/exec"
 	"strings"
 )
 
 func RunCommand(c string) (string, error) {
-	ca := FormatCommandString(c)
-	out, err := exec.Command(ca[0], ca[1:]...).Output()
-	if err != nil {
-		return "", err
-	}
+	output := ""
 
 	log.Printf("Executing %s", c)
-	output := string(out[:])
+
+	ca := FormatCommandString(c)
+	cmd := exec.Command(ca[0], ca[1:]...)
+	stderr, err := cmd.StderrPipe()
+	if err != nil {
+		return output, errors.New("Error creating Std error pipe")
+	}
+	stdout, err := cmd.StdoutPipe()
+	stdoutS := bufio.NewScanner(stdout)
+	if err != nil {
+		return output, errors.New("Error creating Std out pipe")
+	}
+	err = cmd.Start()
+	if err != nil {
+		errData, _ := ioutil.ReadAll(stderr)
+		errString := fmt.Sprintf("Error starting %s\nError: %s\nData:\n %s", c, err.Error(), errData)
+		return output, errors.New(errString)
+	}
+
+	for stdoutS.Scan() {
+		data := stdoutS.Text() + "\n"
+		output = output + data
+		log.Printf("Command: [%s] \noutput: %s\n", c, data)
+	}
+
+	err = cmd.Wait()
+	if err != nil {
+		errData, _ := ioutil.ReadAll(stderr)
+		errString := fmt.Sprintf("Error running %s\nError: %s\nData:\n %s", c, err.Error(), errData)
+		return output, errors.New(errString)
+	}
+
 	return output, nil
 }
 

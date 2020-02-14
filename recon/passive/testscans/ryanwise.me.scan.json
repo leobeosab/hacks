@@ -4,7 +4,91 @@
 		"ryanwise.me": {
 			"root": "ryanwise.me",
 			"wildcard": true,
-			"domains": null
+			"domains": {
+				"home.ryanwise.me": {
+					"name": "home.ryanwise.me",
+					"dirbResults": [
+						{
+							"path": "http://home.ryanwise.me:80/notes",
+							"status": 301
+						}
+					]
+				},
+				"ryanwise.me": {
+					"name": "ryanwise.me",
+					"dirbResults": [
+						{
+							"path": "https://ryanwise.me/about",
+							"status": 302
+						},
+						{
+							"path": "https://ryanwise.me/favicon.ico",
+							"status": 200
+						},
+						{
+							"path": "https://ryanwise.me/posts",
+							"status": 302
+						},
+						{
+							"path": "https://ryanwise.me/projects",
+							"status": 302
+						},
+						{
+							"path": "https://ryanwise.me/robots.txt",
+							"status": 200
+						},
+						{
+							"path": "https://ryanwise.me/sitemap.xml",
+							"status": 200
+						},
+						{
+							"path": "https://ryanwise.me/soap",
+							"status": 200
+						},
+						{
+							"path": "https://ryanwise.me/tags",
+							"status": 302
+						}
+					]
+				},
+				"www.ryanwise.me": {
+					"name": "www.ryanwise.me",
+					"dirbResults": [
+						{
+							"path": "https://www.ryanwise.me/about",
+							"status": 302
+						},
+						{
+							"path": "https://www.ryanwise.me/favicon.ico",
+							"status": 200
+						},
+						{
+							"path": "https://www.ryanwise.me/posts",
+							"status": 302
+						},
+						{
+							"path": "https://www.ryanwise.me/projects",
+							"status": 302
+						},
+						{
+							"path": "https://www.ryanwise.me/robots.txt",
+							"status": 200
+						},
+						{
+							"path": "https://www.ryanwise.me/sitemap.xml",
+							"status": 200
+						},
+						{
+							"path": "https://www.ryanwise.me/soap",
+							"status": 200
+						},
+						{
+							"path": "https://www.ryanwise.me/tags",
+							"status": 302
+						}
+					]
+				}
+			}
 		}
 	},
 	"dnsWordlistPath": "wl",
