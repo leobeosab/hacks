@@ -46,6 +46,10 @@ func SendDiscordMessage(message *DiscordMessage, envVar string) {
 }
 
 func NotifyDirBustResults(domain string, results *[]models.DirBustResult) {
+	if len(*results) == 0 {
+		return
+	}
+
 	content := "Dirbust Results: \n"
 	for _, r := range *results {
 		content += r.Path + "\n"
