@@ -15,9 +15,9 @@ type DiscordMessage struct {
 	Content  string `json:"content"`
 }
 
-func SendDiscordMessage(message *DiscordMessage) {
+func SendDiscordMessage(message *DiscordMessage, envVar string) {
 
-	webhookurl := os.Getenv("D_NOTIFICATION_WH")
+	webhookurl := os.Getenv(envVar)
 	if webhookurl == "" {
 		log.Println("Error sending discord notification, invalid webhookurl")
 		return
@@ -56,7 +56,7 @@ func NotifyDirBustResults(domain string, results *[]models.DirBustResult) {
 		Content:  content,
 	}
 
-	SendDiscordMessage(msg)
+	SendDiscordMessage(msg, Settings().LoggingWHName)
 }
 
 func NotifyUniqueDomains(target string, domains *[]models.Domain) {
@@ -70,5 +70,5 @@ func NotifyUniqueDomains(target string, domains *[]models.Domain) {
 		Content:  content,
 	}
 
-	SendDiscordMessage(msg)
+	SendDiscordMessage(msg, Settings().ScanWHName)
 }

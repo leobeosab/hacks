@@ -9,5 +9,5 @@ func SendError(name string, errmsg string, err error) {
 		Content:  content,
 	}
 
-	SendDiscordMessage(msg)
+	SendDiscordMessage(msg, Settings().ErrorWHName)
 }
