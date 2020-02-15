@@ -81,16 +81,15 @@ func DNSScanning(s *models.Scan) map[string][]models.Domain {
 		domains := make([]models.Domain, 0)
 		amassdomains, err := scantools.AmassDNSEnumeration(t.Root)
 		if err != nil {
-			notify.SendError(t.Root, "Amass DNS Enumeration", err)
+			notify.SendError(t.Root, "Amass DNS Enumeration, Found: "+string(len(amassdomains)), err)
 		}
 		domains = append(domains, amassdomains...)
 		gobustdomains, err := scantools.GOBustDNSBusting(t.Root, s.DNSWordlistPath)
 		if err != nil {
-			notify.SendError(t.Root, "Error doing dns buting", err)
+			notify.SendError(t.Root, "Error doing DNS Busting", err)
 		}
 		domains = append(domains, gobustdomains...)
 
-		fmt.Printf("%v\n", t)
 		for _, d := range domains {
 			if _, ok := t.Domains[d.Name]; ok {
 				continue

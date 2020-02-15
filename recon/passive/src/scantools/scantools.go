@@ -52,14 +52,14 @@ func AmassDNSEnumeration(domain string) ([]models.Domain, error) {
 
 	rc := fmt.Sprintf("amass enum -d %s", domain)
 	data, err := commands.RunCommand(rc)
+	domains := make([]models.Domain, 0)
+
 	if err != nil {
-		log.Println("Error encountered during AmassEnumeration.... skipping")
+		log.Printf("Error encountered during AmassEnumeration.... data length: %s", data)
 		log.Println(err)
-		return []models.Domain{}, err
 	}
 
 	subs := strings.Split(data, "\n")
-	domains := make([]models.Domain, 0)
 
 	for _, s := range subs {
 		if len(s) == 0 {
@@ -73,7 +73,7 @@ func AmassDNSEnumeration(domain string) ([]models.Domain, error) {
 		domains = append(domains, d)
 	}
 
-	return domains, nil
+	return domains, err
 }
 
 func GOBustDNSBusting(domain string, wordlistpath string) ([]models.Domain, error) {

@@ -2,12 +2,14 @@ package commands
 
 import (
 	"bufio"
+	"context"
 	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os/exec"
 	"strings"
+	"time"
 )
 
 func RunCommand(c string) (string, error) {
@@ -15,8 +17,11 @@ func RunCommand(c string) (string, error) {
 
 	log.Printf("Executing %s", c)
 
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Minute)
+	defer cancel()
+
 	ca := FormatCommandString(c)
-	cmd := exec.Command(ca[0], ca[1:]...)
+	cmd := exec.CommandContext(ctx, ca[0], ca[1:]...)
 	stderr, err := cmd.StderrPipe()
 	if err != nil {
 		return output, errors.New("Error creating Std error pipe")
