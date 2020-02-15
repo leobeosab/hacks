@@ -1,7 +1,13 @@
+Shitty passive recon tool written in golang. Waiting for github.com/leoebosab/sharingan to be completed
+
 ## TODO
 1. Multiple Webhooks
 2. Context for commands
 3. Embeds for DiscordMessage (stop showing links)
+4. Out-of-scope black list
+5. Rate limiting for Gobuster
+6. Notify on even non unique data for testing
+7. Notify on unique dirb results
 
 * nmap scan
 * waybackurls
