@@ -18,6 +18,7 @@ import (
  * -----------------------------------------
  * This is a hack to serve as a replacement for github.com/leobeosab/sharingan until
  * I have all the features I want for passive scanning done and stable
+ * TLDR; This code fucking sucks
  */
 
 func main() {
@@ -45,7 +46,7 @@ func DirBusting(s *models.Scan) map[string][]models.DirBustResult {
 	results := make(map[string][]models.DirBustResult, 0)
 	for tk, tv := range s.Subdomains {
 		for dk, dv := range tv.Domains {
-			// JESUS CHRIST I HATE THIS
+			// I HATE THIS
 			// YET HERE I AM WRITING IT
 			// What am I doing with my life
 			dirb := make([]models.DirBustResult, 0)

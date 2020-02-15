@@ -19,7 +19,6 @@ func DirBust(URL string, wordlistpath string) ([]models.DirBustResult, error) {
 	if err != nil {
 		log.Printf("Error encountered during gobuster dir.... skipping\n URL: %s", URL)
 		log.Println(err)
-		return results, err // return empty array
 	}
 
 	reg := regexp.MustCompile(`(\d)*`) // match only digits for status
@@ -45,7 +44,7 @@ func DirBust(URL string, wordlistpath string) ([]models.DirBustResult, error) {
 		results = append(results, r)
 	}
 
-	return results, nil
+	return results, err
 }
 
 func AmassDNSEnumeration(domain string) ([]models.Domain, error) {
@@ -82,8 +81,6 @@ func GOBustDNSBusting(domain string, wordlistpath string) ([]models.Domain, erro
 	if err != nil {
 		log.Println("Error encountered during Gobuster DNS Enumeration.... skipping")
 		log.Println(err)
-		return []models.Domain{}, err
-
 	}
 	reg := regexp.MustCompile(`[\S]*`)
 	subs := strings.Split(data, "Found: ")
@@ -102,5 +99,5 @@ func GOBustDNSBusting(domain string, wordlistpath string) ([]models.Domain, erro
 		domains = append(domains, d)
 	}
 
-	return domains, nil
+	return domains, err
 }
