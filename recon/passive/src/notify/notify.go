@@ -3,7 +3,9 @@ package notify
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"log"
+	"math"
 	"net/http"
 	"os"
 
@@ -11,8 +13,12 @@ import (
 )
 
 type DiscordMessage struct {
-	Username string `json:"username"`
-	Content  string `json:"content"`
+	Username string         `json:"username"`
+	Content  string         `json:"content"`
+	Embeds   []DiscordEmbed `json:"embeds"`
+}
+
+type DiscordEmbed struct {
 }
 
 func SendDiscordMessage(message *DiscordMessage, envVar string) {
@@ -21,6 +27,13 @@ func SendDiscordMessage(message *DiscordMessage, envVar string) {
 	if webhookurl == "" {
 		log.Println("Error sending discord notification, invalid webhookurl")
 		return
+	}
+
+	if len(message.Content) > 1500 {
+		for _, m := range LongMessageToMessageArr(message) {
+			SendDiscordMessage(&m, envVar)
+			return
+		}
 	}
 
 	j, err := json.Marshal(message)
@@ -43,6 +56,24 @@ func SendDiscordMessage(message *DiscordMessage, envVar string) {
 		return
 	}
 	defer resp.Body.Close()
+}
+
+func LongMessageToMessageArr(msg *DiscordMessage) []DiscordMessage {
+	msgA := SplitN(msg.Content, 1500)
+	msgs := make([]DiscordMessage, 0)
+
+	for i := 0; i < len(msgA); i++ {
+		usr := fmt.Sprintf("%s Part %d of %d", msg.Username, i+1, len(msgA))
+		tmp := DiscordMessage{
+			Content:  msgA[i],
+			Username: usr,
+			Embeds:   msg.Embeds,
+		}
+
+		msgs[i] = tmp
+	}
+
+	return msgs
 }
 
 func NotifyDirBustResults(domain string, results *[]models.DirBustResult) {
@@ -79,4 +110,20 @@ func NotifyDomains(target string, titleMessage string, domains *[]models.Domain,
 	}
 
 	SendDiscordMessage(msg, wh)
+}
+
+func SplitN(s string, n int) []string {
+	f := float64(len(s)) / float64(n)
+	length := int(math.Ceil(f))
+	arr := make([]string, length)
+
+	for i := 0; i < length; i++ {
+		if i == length-1 {
+			arr[i] = s[i*n:]
+		} else {
+			arr[i] = s[i*n : i*n+n]
+		}
+	}
+
+	return arr
 }
