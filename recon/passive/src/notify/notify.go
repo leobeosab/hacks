@@ -60,7 +60,7 @@ func SendDiscordMessage(message *DiscordMessage, envVar string) {
 
 func LongMessageToMessageArr(msg *DiscordMessage) []DiscordMessage {
 	msgA := SplitN(msg.Content, 1500)
-	msgs := make([]DiscordMessage, 0)
+	msgs := make([]DiscordMessage, len(msgA))
 
 	for i := 0; i < len(msgA); i++ {
 		usr := fmt.Sprintf("%s Part %d of %d", msg.Username, i+1, len(msgA))
