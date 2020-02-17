@@ -63,8 +63,12 @@ func NotifyDirBustResults(domain string, results *[]models.DirBustResult) {
 	SendDiscordMessage(msg, Settings().LoggingWHName)
 }
 
-func NotifyUniqueDomains(target string, domains *[]models.Domain) {
-	content := "Unique Domains Found: \n"
+func NotifyDomains(target string, titleMessage string, domains *[]models.Domain, wh string) {
+	if len(*domains) == 0 {
+		return
+	}
+
+	content := titleMessage + "\n"
 	for _, d := range *domains {
 		content += d.Name + "\n"
 	}
@@ -74,5 +78,5 @@ func NotifyUniqueDomains(target string, domains *[]models.Domain) {
 		Content:  content,
 	}
 
-	SendDiscordMessage(msg, Settings().ScanWHName)
+	SendDiscordMessage(msg, wh)
 }

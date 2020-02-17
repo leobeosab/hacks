@@ -29,7 +29,7 @@ func main() {
 
 	dnsRes := DNSScanning(&s)
 	for t, a := range dnsRes {
-		notify.NotifyUniqueDomains(t, &a)
+		notify.NotifyDomains(t, "Unique Domains Found: ", &a, notify.Settings().ScanWHName)
 	}
 	dirb := DirBusting(&s)
 	for t, a := range dirb {
@@ -84,11 +84,15 @@ func DNSScanning(s *models.Scan) map[string][]models.Domain {
 		if err != nil {
 			notify.SendError(t.Root, "Amass DNS Enumeration, Found: "+string(len(amassdomains)), err)
 		}
+		notify.NotifyDomains(t.Root, "Amass Results: ", &amassdomains, notify.Settings().LoggingWHName)
+
 		domains = append(domains, amassdomains...)
 		gobustdomains, err := scantools.GOBustDNSBusting(t.Root, s.DNSWordlistPath)
 		if err != nil {
 			notify.SendError(t.Root, "Error doing DNS Busting", err)
 		}
+		notify.NotifyDomains(t.Root, "Gobuster DNS Results: ", &gobustdomains, notify.Settings().LoggingWHName)
+
 		domains = append(domains, gobustdomains...)
 
 		for _, d := range domains {
