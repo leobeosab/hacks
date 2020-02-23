@@ -32,8 +32,8 @@ func SendDiscordMessage(message *DiscordMessage, envVar string) {
 	if len(message.Content) > 1500 {
 		for _, m := range LongMessageToMessageArr(message) {
 			SendDiscordMessage(&m, envVar)
-			return
 		}
+		return
 	}
 
 	j, err := json.Marshal(message)
